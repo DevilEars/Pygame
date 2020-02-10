@@ -1,0 +1,18 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 10 16:55:04 2020
+
+@author: devilears
+"""
+
+class Apple:
+    x = 0
+    y = 0
+    step = 44
+
+    def __init__(self,x,y):
+        self.x = x * self.step
+        self.y = y * self.step
+
+    def draw(self, surface, image):
+        surface.blit(image,(self.x, self.y)) 
