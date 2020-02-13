@@ -7,10 +7,7 @@ Created on Thu Feb 13 10:21:40 2020
 
 import pygame
 from pygame.locals import QUIT
-
 import random
-#import time
-
 from Boid import Boid
 
 class BoidsApp:
@@ -20,7 +17,7 @@ class BoidsApp:
     boids = []
     border = 15# can still tweak this or debug bounding box
     maxDistance = 2000
-    minDistance = 100
+    minDistance = 50
     maxVelocity = 10
     numBoids = 23
     size = width, height = 800, 600
@@ -78,7 +75,6 @@ class BoidsApp:
             boidRect.y = boid.y
             self.screen.blit(self.ball, boidRect)
         pygame.display.flip()
-        #pygame.time.delay(10)
         
         
     def move_all_boids_to_new_positions(self):
@@ -135,7 +131,6 @@ class BoidsApp:
             self.on_render()
             self.on_loop()
             
-            #time.sleep(50.0 / 100.0);
             pygame.time.delay(50)
             
             
