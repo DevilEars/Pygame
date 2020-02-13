@@ -8,15 +8,21 @@ Created on Thu Feb 13 10:21:40 2020
 import pygame
 from pygame.locals import QUIT
 
+import random
 import time
+
+from Boid import Boid
 
 class BoidsApp:
     """
     Classic Boids
     """
+    
+    boids = []
     maxVelocity = 10
     numBoids = 50
-    boids = []
+    size = width, height = 800, 600
+    
         
     
     
@@ -28,7 +34,7 @@ class BoidsApp:
         pygame.init()
         pygame.display.set_caption(self.caption)
         
-        # surfaces, to give the boids a texture maybe
+        # surfaces
 
         
         # start running the game!
@@ -50,6 +56,8 @@ class BoidsApp:
         """
         Determines the initial positions of the boids
         """
+        for i in range(self.numBoids):
+            self.boids.append(Boid(random.randint(0, self.width), random.randint(self.height, self.height+5)))
         
     def draw_boids(self):
         """
@@ -77,6 +85,7 @@ class BoidsApp:
         while(self._running):
             #Main game loop is here
             pygame.event.pump()
+            
             self.on_loop()
             self.on_render()
             time.sleep(50.0 / 1000.0);
