@@ -9,6 +9,11 @@ import random
 class Boid:
     """
     Keeps track of a Boid's position and velocity in 2 dimensions
+    
+    Boids follow three rules:
+        1. Flock together towards the centre
+        2. Don't bump against each other
+        3. Keep up with the same velocity
     """
     
     

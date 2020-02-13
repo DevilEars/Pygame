@@ -6,21 +6,29 @@ Created on Thu Feb 13 10:21:40 2020
 """
 
 import pygame
+from pygame.locals import QUIT
+
+import time
 
 class BoidsApp:
     """
     Classic Boids
     """
-    caption = 'Boids'#Title of window
+    maxVelocity = 10
+    numBoids = 50
+    boids = []
+        
+    
     
     def __init__(self):
-        self.caption = ''
+        self.caption = 'Boids'
+        
         
     def on_init(self):
         pygame.init()
         pygame.display.set_caption(self.caption)
         
-        # surfaces
+        # surfaces, to give the boids a texture maybe
 
         
         # start running the game!
@@ -30,14 +38,33 @@ class BoidsApp:
     def on_event(self, event):
         # Esc key to exit
         if event.type == QUIT:
-            self._running = False    
+          self._running = False    
 
+    
+    # these method names are taken from 
+    # pseudo code of Reynold's original boids algorithm
+    # they can be named better, but I kept the same names
+    # to keep track of where I am in the pseudo
+    
+    def initialise_positions(self):
+        """
+        Determines the initial positions of the boids
+        """
+        
+    def draw_boids(self):
+        """
+        Renders the boids
+        """
+        pass
+        
+    def move_all_boids_to_new_positions(self):
+        pass
+    
     def on_loop(self):
-         
-         pass
+        self.move_all_boids_to_new_positions()
      
     def on_render(self):
-        
+        self.draw_boids()
         
     def on_cleanup(self):
         pygame.quit()
@@ -49,6 +76,7 @@ class BoidsApp:
         
         while(self._running):
             #Main game loop is here
+            pygame.event.pump()
             self.on_loop()
             self.on_render()
             time.sleep(50.0 / 1000.0);
