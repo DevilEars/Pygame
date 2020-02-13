@@ -5,7 +5,7 @@ Created on Mon Feb 10 16:56:40 2020
 @author: devilears
 """
 
-# p key is just for debug
+# d key is just for debug
 from pygame.locals import QUIT, K_RIGHT, K_LEFT, K_UP, K_DOWN, K_ESCAPE, K_d
 from random import randint
 
