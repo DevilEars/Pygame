@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb 13 10:21:40 2020
+Created on Thu Feb 13 17:22:07 2020
 
 @author: devilears
 """
-
 import pygame
 
-class BoidsApp:
+class App:
     """
-    Classic Boids
+    Template for App using Pygame
+    This is meant to cuntpaste and embellish, not for fancy OOP
     """
-    caption = 'Boids'#Title of window
+    caption = ''#Title of window
     
     def __init__(self):
         self.caption = ''
@@ -57,5 +57,5 @@ class BoidsApp:
         self.on_cleanup()
             
 if __name__ == "__main__" :
-    theApp = BoidsApp()
+    theApp = App()
     theApp.on_execute()
