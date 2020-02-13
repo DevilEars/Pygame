@@ -18,7 +18,7 @@ class BoidsApp:
     Classic Boids
     """
     boids = []
-    border = 25
+    border = 15# can still tweak this or debug bounding box
     maxDistance = 2000
     minDistance = 100
     maxVelocity = 10
@@ -46,6 +46,8 @@ class BoidsApp:
     
     def on_event(self, event):
        # Esc key to exit
+       # This doesn't work so well
+       # Threads might be locking
        if event.type == QUIT:
            self._running = False
 
@@ -59,7 +61,7 @@ class BoidsApp:
         """
         Determines the initial positions of the boids
         """
-        print("initialise_positions")
+        #print("initialise_positions")
         for i in range(self.numBoids):
             self.boids.append(Boid(random.randint(0, self.width), random.randint(self.height, self.height+5)))
             #self.boids.append(Boid(random.randint(0, self.width), random.randint(0, self.height)))
@@ -130,8 +132,9 @@ class BoidsApp:
             #Main game loop is here
             pygame.event.pump()
             
-            self.on_loop()
             self.on_render()
+            self.on_loop()
+            
             #time.sleep(50.0 / 100.0);
             pygame.time.delay(50)
             
