@@ -23,7 +23,6 @@ class Boid:
         self.y = y
         self.velocity_x = random.randint(1, 10)/10.0
         self.velocity_y = random.randint(1, 10)/10.0
-        self.distance
         
     
     def distance(self, boid):
@@ -54,7 +53,8 @@ class Boid:
         avgY /= len(boids)
 
         # set our velocity towards the centre
-        self.distance = math.sqrt((avgX * avgX) + (avgY * avgY)) * -1.0
+        distance = math.sqrt((avgX * avgX) + (avgY * avgY)) * -1.0
+        #print(distance)
        
         self.velocity_x -= (avgX / 100) 
         self.velocity_y -= (avgY / 100) 
@@ -113,12 +113,12 @@ class Boid:
         self.velocity_y += (avgY / 40)
         
     
-    def move(self):
+    def move(self, maxVelocity):
         """
         Updates the position of the boid based on velocity
         """
-        if abs(self.velocity_x) > self.maxVelocity or abs(self.velocity_y) > self.maxVelocity:
-            scaleFactor = self.maxVelocity / max(abs(self.velocity_x), abs(self.velocity_y))
+        if abs(self.velocity_x) > maxVelocity or abs(self.velocity_y) > maxVelocity:
+            scaleFactor = maxVelocity / max(abs(self.velocity_x), abs(self.velocity_y))
             self.velocity_x *= scaleFactor
             self.velocity_y *= scaleFactor
         
