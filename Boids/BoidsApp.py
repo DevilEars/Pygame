@@ -9,7 +9,7 @@ import pygame
 from pygame.locals import QUIT
 
 import random
-#import time
+import time
 
 from Boid import Boid
 
@@ -125,8 +125,8 @@ class BoidsApp:
             
             self.on_loop()
             self.on_render()
-            #time.sleep(50.0 / 1000.0);
-            pygame.time.delay(10)
+            time.sleep(50.0 / 1000.0);
+            #pygame.time.delay(10)
             
             
         self.on_cleanup()
