@@ -23,21 +23,24 @@ class Boid:
         self.y = y
         self.velocity_x = random.randint(1, 10)/10.0
         self.velocity_y = random.randint(1, 10)/10.0
+        self.distance
         
     
     def distance(self, boid):
         """
-        To determine the distance from another boid
+        Helper method to determine the distance from another boid
         """
         distX = self.x - boid.x
         distY = self.y - boid.y        
         return math.sqrt(distX * distX + distY * distY)
-
-    "Move closer to a set of boids"
+    
     def moveCloser(self, boids):
+        """
+        Flock together, towards the average centre of the boids
+        """
         if len(boids) < 1: return
             
-        # calculate the average distances from the other boids
+        # calculate the average distances
         avgX = 0
         avgY = 0
         for boid in boids:
@@ -50,32 +53,17 @@ class Boid:
         avgX /= len(boids)
         avgY /= len(boids)
 
-        # set our velocity towards the others
-        distance = math.sqrt((avgX * avgX) + (avgY * avgY)) * -1.0
+        # set our velocity towards the centre
+        self.distance = math.sqrt((avgX * avgX) + (avgY * avgY)) * -1.0
        
         self.velocity_x -= (avgX / 100) 
         self.velocity_y -= (avgY / 100) 
         
-    "Move with a set of boids"
-    def moveWith(self, boids):
-        if len(boids) < 1: return
-        # calculate the average velocities of the other boids
-        avgX = 0
-        avgY = 0
-                
-        for boid in boids:
-            avgX += boid.velocity_x
-            avgY += boid.velocity_y
-
-        avgX /= len(boids)
-        avgY /= len(boids)
-
-        # set our velocity towards the others
-        self.velocity_x += (avgX / 40)
-        self.velocity_y += (avgY / 40)
-    
-    "Move away from a set of boids. This avoids crowding"
+       
     def moveAway(self, boids, minDistance):
+        """
+        Don't bump against each other
+        """
         if len(boids) < 1: return
         
         distanceX = 0
@@ -104,10 +92,33 @@ class Boid:
         self.velocity_x -= distanceX / 5
         self.velocity_y -= distanceY / 5
         
-    "Perform actual movement based on our velocity"
+    def moveWith(self, boids):
+        """
+        Keep up in terms of velocity
+        """
+        if len(boids) < 1: return
+        # calculate the average velocities of the other boids
+        avgX = 0
+        avgY = 0
+                
+        for boid in boids:
+            avgX += boid.velocity_x
+            avgY += boid.velocity_y
+
+        avgX /= len(boids)
+        avgY /= len(boids)
+
+        # set our velocity towards the others
+        self.velocity_x += (avgX / 40)
+        self.velocity_y += (avgY / 40)
+        
+    
     def move(self):
-        if abs(self.velocity_x) > maxVelocity or abs(self.velocity_y) > maxVelocity:
-            scaleFactor = maxVelocity / max(abs(self.velocity_x), abs(self.velocity_y))
+        """
+        Updates the position of the boid based on velocity
+        """
+        if abs(self.velocity_x) > self.maxVelocity or abs(self.velocity_y) > self.maxVelocity:
+            scaleFactor = self.maxVelocity / max(abs(self.velocity_x), abs(self.velocity_y))
             self.velocity_x *= scaleFactor
             self.velocity_y *= scaleFactor
         
