@@ -10,7 +10,7 @@ class Apple:
     y = 0
     step = 44
 
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         self.x = x * self.step
         self.y = y * self.step
 
