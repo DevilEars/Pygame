@@ -53,7 +53,7 @@ class Boid:
         avgY /= len(boids)
 
         # set our velocity towards the centre
-        distance = math.sqrt((avgX * avgX) + (avgY * avgY)) * -1.0
+        #distance = math.sqrt((avgX * avgX) + (avgY * avgY)) * -1.0
         #print(distance)
        
         self.velocity_x -= (avgX / 100) 

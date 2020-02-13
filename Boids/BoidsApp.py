@@ -20,8 +20,9 @@ class BoidsApp:
     boids = []
     border = 25
     maxDistance = 2000
+    minDistance = 100
     maxVelocity = 10
-    numBoids = 10
+    numBoids = 23
     size = width, height = 800, 600
     screen = pygame.display.set_mode(size)        
     
@@ -44,9 +45,9 @@ class BoidsApp:
 
     
     def on_event(self, event):
-        # Esc key to exit
-        if event.type == QUIT:
-          self._running = False    
+       # Esc key to exit
+       if event.type == QUIT:
+           self._running = False
 
     
     # these method names are taken from 
@@ -95,7 +96,7 @@ class BoidsApp:
             
             boid.moveCloser(closeBoids)
             boid.moveWith(closeBoids)  
-            boid.moveAway(closeBoids, 20)
+            boid.moveAway(closeBoids, self.minDistance)
             
             if boid.x < self.border and boid.velocity_x < 0:
                 boid.velocity_x = -boid.velocity_x * random.random()
@@ -117,6 +118,7 @@ class BoidsApp:
         
         
     def on_cleanup(self):
+        #print("kthxbi")
         pygame.quit()
         
     def on_execute(self):
@@ -130,8 +132,8 @@ class BoidsApp:
             
             self.on_loop()
             self.on_render()
-            #time.sleep(50.0 / 1000.0);
-            pygame.time.delay(100)
+            #time.sleep(50.0 / 100.0);
+            pygame.time.delay(50)
             
             
         self.on_cleanup()
