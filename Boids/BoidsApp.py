@@ -9,7 +9,7 @@ import pygame
 from pygame.locals import QUIT
 
 import random
-import time
+#import time
 
 from Boid import Boid
 
@@ -17,8 +17,9 @@ class BoidsApp:
     """
     Classic Boids
     """
-    
     boids = []
+    border = 25
+    maxDistance = 200
     maxVelocity = 10
     numBoids = 50
     size = width, height = 800, 600
@@ -74,7 +75,34 @@ class BoidsApp:
         
         
     def move_all_boids_to_new_positions(self):
-        pass
+        """
+        All the magic happens here. This determines neighbouring boids,
+        and performs all the boid emergent functions while we're in the loop
+        """
+        for boid in self.boids:
+            closeBoids = []
+            for otherBoid in self.boids:
+                if otherBoid == boid: continue
+                distance = boid.distance(otherBoid)
+                if distance < self.maxDistance:
+                    closeBoids.append(otherBoid)
+    
+            
+            boid.moveCloser(closeBoids)
+            boid.moveWith(closeBoids)  
+            boid.moveAway(closeBoids, 20)
+            
+            if boid.x < self.border and boid.velocityX < 0:
+                boid.velocity_x = -boid.velocity_x * random.random()
+            if boid.x > self.width - self.border and boid.velocity_x > 0:
+                boid.velocity_x = -boid.velocity_x * random.random()
+            if boid.y < self.border and boid.velocity_y < 0:
+                boid.velocity_y = -boid.velocity_y * random.random()
+            if boid.y > self.height - self.border and boid.velocity_y > 0:
+                boid.velocity_y = -boid.velocity_y * random.random()
+            
+            boid.move()
+
     
     def on_loop(self):
         self.move_all_boids_to_new_positions()
@@ -93,11 +121,12 @@ class BoidsApp:
         
         while(self._running):
             #Main game loop is here
-            pygame.event.pump()
+            #pygame.event.pump()
             
             self.on_loop()
             self.on_render()
-            time.sleep(50.0 / 1000.0);
+            #time.sleep(50.0 / 1000.0);
+            pygame.time.delay(10)
             
             
         self.on_cleanup()
