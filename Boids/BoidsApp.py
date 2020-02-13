@@ -22,8 +22,7 @@ class BoidsApp:
     maxVelocity = 10
     numBoids = 50
     size = width, height = 800, 600
-    
-        
+    screen = pygame.display.set_mode(size)        
     
     
     def __init__(self):
@@ -35,7 +34,9 @@ class BoidsApp:
         pygame.display.set_caption(self.caption)
         
         # surfaces
-
+        #self.ball = pygame.image.load("fireball.png")
+        self.ball = pygame.image.load("fireball.png").convert()
+        self.ballrect = self.ball.get_rect()
         
         # start running the game!
         self._running = True
@@ -63,7 +64,14 @@ class BoidsApp:
         """
         Renders the boids
         """
-        pass
+        self.screen.fill((0, 0, 0))
+        for boid in self.boids:
+            boidRect = pygame.Rect(self.ballrect)
+            boidRect.x = boid.x
+            boidRect.y = boid.y
+            self.screen.blit(self.ball, boidRect)
+        pygame.display.flip()
+        
         
     def move_all_boids_to_new_positions(self):
         pass
@@ -73,6 +81,7 @@ class BoidsApp:
      
     def on_render(self):
         self.draw_boids()
+        
         
     def on_cleanup(self):
         pygame.quit()
