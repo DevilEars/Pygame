@@ -6,7 +6,7 @@ Created on Thu Feb 13 10:21:40 2020
 """
 
 import pygame
-from pygame.locals import QUIT
+from pygame.locals import QUIT, K_ESCAPE
 import random
 from Boid import Boid
 
@@ -15,10 +15,10 @@ class BoidsApp:
     Classic Boids
     """
     boids = []
-    border = 15# can still tweak this or debug bounding box
-    maxDistance = 2000
-    minDistance = 50
-    maxVelocity = 10
+    border = 9# can still tweak this or debug bounding box
+    maxDistance = 200
+    minDistance = 25
+    maxVelocity = 60
     numBoids = 23
     size = width, height = 800, 600
     screen = pygame.display.set_mode(size)        
@@ -42,9 +42,7 @@ class BoidsApp:
 
     
     def on_event(self, event):
-       # Esc key to exit
-       # This doesn't work so well
-       # Threads might be locking
+    # Quit event when window is closed, this gets stuck
        if event.type == QUIT:
            self._running = False
 
@@ -76,6 +74,20 @@ class BoidsApp:
             self.screen.blit(self.ball, boidRect)
         pygame.display.flip()
         
+    def get_neighbouring_boids(self, thisBoid, thoseBoids):
+        """
+        Checks for those boids within a maximum distance 
+        of this current boid
+        """
+        closeBoids = []
+        for b in thoseBoids:
+            if b == thisBoid: continue
+            d = thisBoid.distance(b)
+            if d < self.maxDistance:
+                closeBoids.append(b)
+        return closeBoids
+        
+        
         
     def move_all_boids_to_new_positions(self):
         """
@@ -84,18 +96,15 @@ class BoidsApp:
         """
         #print("move boids to new positions")
         for boid in self.boids:
-            closeBoids = []
-            for otherBoid in self.boids:
-                if otherBoid == boid: continue
-                distance = boid.distance(otherBoid)
-                if distance < self.maxDistance:
-                    closeBoids.append(otherBoid)
-    
-            
+            closeBoids = self.get_neighbouring_boids(boid, self.boids)
+              
+            # apply the boid algorithm
             boid.moveCloser(closeBoids)
             boid.moveWith(closeBoids)  
             boid.moveAway(closeBoids, self.minDistance)
             
+            # check for border so the boid deosn't fly into oblivion or migrate
+            # North out of season
             if boid.x < self.border and boid.velocity_x < 0:
                 boid.velocity_x = -boid.velocity_x * random.random()
             if boid.x > self.width - self.border and boid.velocity_x > 0:
@@ -105,6 +114,7 @@ class BoidsApp:
             if boid.y > self.height - self.border and boid.velocity_y > 0:
                 boid.velocity_y = -boid.velocity_y * random.random()
             
+            # velocity and position tweaked, let's move!
             boid.move(self.maxVelocity)
 
     
@@ -127,6 +137,11 @@ class BoidsApp:
         while(self._running):
             #Main game loop is here
             pygame.event.pump()
+            keys = pygame.key.get_pressed()
+            
+            # if user bails with Esc key
+            if (keys[K_ESCAPE]):
+                self._running = False
             
             self.on_render()
             self.on_loop()
