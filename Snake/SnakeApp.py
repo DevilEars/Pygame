@@ -80,7 +80,11 @@ class SnakeApp:
  
         # does snake eat apple?
         for i in range(0,self.player.length):
-            if self.board.isCollision(self.apple.x,self.apple.y,self.player.x[i], self.player.y[i],self.player.step):
+            # collision needs to take step size and texture size into account
+            # my textures are 10x10, step size is 20, so step/2 is a good hit
+            # otherwise, sometimes the apples are eaten and the player isn't
+            # exactly matched up with the apple
+            if self.board.isCollision(self.apple.x,self.apple.y,self.player.x[i], self.player.y[i], self.player.step/2):
                 self.apple.x = randint(2,9) * self.player.step
                 self.apple.y = randint(2,9) * self.player.step
                 self.player.length = self.player.length + 1

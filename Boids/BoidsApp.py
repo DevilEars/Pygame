@@ -134,6 +134,7 @@ class BoidsApp:
             self._running = False
  
         self.initialise_positions()
+        
         while(self._running):
             #Main game loop is here
             pygame.event.pump()
