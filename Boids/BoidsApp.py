@@ -15,7 +15,7 @@ class BoidsApp:
     Classic Boids
     """
     boids = []
-    border = 9# can still tweak this or debug bounding box
+    border = 9
     maxDistance = 200
     minDistance = 25
     maxVelocity = 60
