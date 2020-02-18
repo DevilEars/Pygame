@@ -6,7 +6,7 @@ Created on Thu Feb 13 10:21:40 2020
 """
 
 import pygame
-from pygame.locals import QUIT, K_ESCAPE
+from pygame.locals import QUIT, K_ESCAPE, K_d
 import random
 from Boid import Boid
 
@@ -34,7 +34,6 @@ class BoidsApp:
         
         # surfaces
         self.ball = pygame.image.load("fireball.png")
-        #self.ball = pygame.image.load("fireball.png").convert()
         self.ballrect = self.ball.get_rect()
         
         # start running the game!
@@ -105,13 +104,13 @@ class BoidsApp:
             
             # check for border so the boid deosn't fly into oblivion or migrate
             # North out of season
-            if boid.x < self.border and boid.velocity_x < 0:
+            if boid.x < (self.border - (self.ballrect.width/2)) and boid.velocity_x < 0:
                 boid.velocity_x = -boid.velocity_x * random.random()
-            if boid.x > self.width - self.border and boid.velocity_x > 0:
+            if boid.x > (self.width - (self.ballrect.width/2)) and boid.velocity_x > 0:
                 boid.velocity_x = -boid.velocity_x * random.random()
-            if boid.y < self.border and boid.velocity_y < 0:
+            if boid.y < (self.border - (self.ballrect.height/2)) and boid.velocity_y < 0:
                 boid.velocity_y = -boid.velocity_y * random.random()
-            if boid.y > self.height - self.border and boid.velocity_y > 0:
+            if boid.y > (self.height - (self.border + (self.ballrect.height/2))) and boid.velocity_y > 0:
                 boid.velocity_y = -boid.velocity_y * random.random()
             
             # velocity and position tweaked, let's move!
@@ -126,7 +125,6 @@ class BoidsApp:
         
         
     def on_cleanup(self):
-        #print("kthxbi")
         pygame.quit()
         
     def on_execute(self):
@@ -143,6 +141,9 @@ class BoidsApp:
             # if user bails with Esc key
             if (keys[K_ESCAPE]):
                 self._running = False
+            if (keys[K_d]):
+                print(self.ballrect)
+                
             
             self.on_render()
             self.on_loop()

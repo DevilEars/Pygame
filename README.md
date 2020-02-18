@@ -10,4 +10,3 @@ if you want to run Snake, the main class is SnakeApp.
 1. I have included the sprites I used. In theory, you should be able to 
 export the code, install the missing libraries, and run the App file.
 This has not been packaged into a standalone install yet. Sorry.
-
