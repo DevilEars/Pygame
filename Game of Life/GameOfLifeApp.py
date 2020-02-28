@@ -3,10 +3,14 @@ Created on Thu Feb 13 17:22:07 2020
 
 @author: devilears
 """
+
+# libraries
 import pygame
 import numpy as np
-import matplotlib.pyplot as plt
 from pygame.locals import QUIT, K_ESCAPE
+
+# classes
+from Board import Board
 
 class GameOfLifeApp:
     """
@@ -14,9 +18,13 @@ class GameOfLifeApp:
     """
     
     def __init__(self):
+        self._display_surf = None
+        # could make living blocks an image?
+        self._living_surf = None
         self.caption = 'Game of Life'
-        self.generations = 70
-        self.cells = 6
+        self.generations = 50
+        self.cells = 10
+        self.board = Board(self.cells)
         
     def on_init(self):
         pygame.init()
@@ -31,6 +39,8 @@ class GameOfLifeApp:
         """
         print('create_universe()')
         self.universe = np.zeros((self.cells, self.cells))
+        self._display_surf = pygame.display.set_mode((self.cells,self.cells), pygame.HWSURFACE)
+        self._living_surf = pygame.image.load("./images/block.png").convert()
         
     def add_beacon(self):
         """
@@ -68,8 +78,7 @@ class GameOfLifeApp:
          pass
      
     def on_render(self):
-        plt.imshow(self.universe, cmap='binary')
-        plt.show()
+        pass
         
     def on_cleanup(self):
         pygame.quit()
@@ -80,6 +89,10 @@ class GameOfLifeApp:
  
         self.create_universe()
         self.seed_universe()
+        
+        # maxplotlib is overkill, going to try the pygame board thang
+        #plt.imshow(self.universe, cmap='binary')
+        #plt.show()
         
         while(self._running):
              # main game loop is here
